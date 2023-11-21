@@ -80,9 +80,9 @@ class UserInfo extends StatelessWidget {
                                           ),
                                         ),
                                         Icon(
-                                          Icons.arrow_forward_ios,
-                                          size: 18,
-                                          color: Color(0xffff6060)
+                                            Icons.arrow_forward_ios,
+                                            size: 18,
+                                            color: Color(0xffff6060)
                                         ),
                                       ],
                                     ),
