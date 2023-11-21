@@ -564,37 +564,6 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Match
-                InkWell(
-                  onTap: () {
-                    // Match를 눌렀을 때의 동작
-                    // Do something
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 2, color: Colors.black),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Match',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
                 // MyPage
                 InkWell(
                   onTap: () {
