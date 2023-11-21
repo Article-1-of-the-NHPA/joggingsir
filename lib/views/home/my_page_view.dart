@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/main_app_bar.dart';
 import '../widgets/user_info.dart';
 import '../widgets/recent_location.dart';
+import '../widgets/running_record.dart';
 
 void main() {
   runApp(const MyPage());
@@ -18,7 +19,8 @@ class MyPage extends StatelessWidget {
         body: Column(
           children: [
             UserInfo(),
-            RecentLocation()
+            RecentLocation(),
+            RunningRecord()
           ],
         )
       ),
