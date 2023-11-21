@@ -120,7 +120,7 @@ class _RunningScreenState extends State<RunningScreen> {
                 ),
               ),
               Text(
-                '120222',
+                '120',
                 style: TextStyle(
                   color: Colors.blue,
                   fontSize: 45,
