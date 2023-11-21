@@ -396,7 +396,7 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      '2023년 10월 RANKING',
+                      '👑2023년 10월 RANKING👑',
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
@@ -512,14 +512,7 @@ class HomeScreen extends StatelessWidget {
                     padding: EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 2, color: Colors.black),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        ),
+                        Icon(Icons.home),
                         SizedBox(height: 8),
                         Text(
                           'Home',
@@ -543,14 +536,7 @@ class HomeScreen extends StatelessWidget {
                     padding: EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 2, color: Colors.black),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        ),
+                        Icon(Icons.run_circle),
                         SizedBox(height: 8),
                         Text(
                           'Route',
@@ -574,14 +560,7 @@ class HomeScreen extends StatelessWidget {
                     padding: EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 2, color: Colors.black),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        ),
+                        Icon(Icons.account_circle),
                         SizedBox(height: 8),
                         Text(
                           'MyPage',
