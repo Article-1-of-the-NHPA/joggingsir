@@ -50,7 +50,6 @@ class _RunningScreenState extends State<RunningScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 20), // 간격 조정
-
               Text(
                 '04:32',
                 style: TextStyle(
@@ -71,7 +70,7 @@ class _RunningScreenState extends State<RunningScreen> {
                 '거리(km)',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 12,
                 ),
               ),
               Text(
@@ -79,7 +78,11 @@ class _RunningScreenState extends State<RunningScreen> {
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 45,
-                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
+                  fontFamily: 'SF Pro Text',
+                  fontWeight: FontWeight.w700,
+                  height: 0,
+                  letterSpacing: -0.32,
                 ),
               ),
 
@@ -90,7 +93,7 @@ class _RunningScreenState extends State<RunningScreen> {
                 '걸음수',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 12,
                 ),
               ),
               Text(
@@ -98,7 +101,11 @@ class _RunningScreenState extends State<RunningScreen> {
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 45,
-                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
+                  fontFamily: 'SF Pro Text',
+                  fontWeight: FontWeight.w700,
+                  height: 0,
+                  letterSpacing: -0.32,
                 ),
               ),
 
@@ -109,15 +116,19 @@ class _RunningScreenState extends State<RunningScreen> {
                 '적립 리워드',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 12,
                 ),
               ),
               Text(
-                '120',
+                '120222',
                 style: TextStyle(
                   color: Colors.blue,
                   fontSize: 45,
-                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
+                  fontFamily: 'SF Pro Text',
+                  fontWeight: FontWeight.w700,
+                  height: 0,
+                  letterSpacing: -0.32,
                 ),
               ),
 
