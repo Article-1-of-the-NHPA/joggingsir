@@ -3,6 +3,7 @@ import '../widgets/main_app_bar.dart';
 import '../widgets/user_info.dart';
 import '../widgets/recent_location.dart';
 import '../widgets/running_record.dart';
+import '../widgets/navigate_bar.dart';
 
 void main() {
   runApp(const MyPage());
@@ -20,9 +21,10 @@ class MyPage extends StatelessWidget {
           children: [
             UserInfo(),
             RecentLocation(),
-            RunningRecord()
+            RunningRecord(),
+            NavigateBar()
           ],
-        )
+        ),
       ),
     );
   }

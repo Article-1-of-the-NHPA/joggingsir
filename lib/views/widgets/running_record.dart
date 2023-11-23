@@ -6,6 +6,8 @@ class RunningRecord extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+
+        height: 230,
       width: 357,
       child: Column(
         children: [
@@ -21,6 +23,7 @@ class RunningRecord extends StatelessWidget {
               },
             ),
           ),
+
         ],
       )
     );

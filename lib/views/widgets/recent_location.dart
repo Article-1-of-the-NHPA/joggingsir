@@ -6,7 +6,7 @@ class RecentLocation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 260,
+      height: 180,
       width: 357,
       child: Column(
         children: [
@@ -75,7 +75,6 @@ class Location extends StatelessWidget {
                 Text('4.5(999+)', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               ],
             ),
-            // 리뷰 남기기 버튼
           ],
         )
       ],
