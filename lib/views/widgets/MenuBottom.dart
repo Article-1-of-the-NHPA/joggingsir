@@ -4,7 +4,9 @@ import 'package:joggigsir/routelist.dart';
 import 'package:joggigsir/mypage.dart';
 
 class MenuBottom extends StatelessWidget {
-  const MenuBottom({Key? key});
+  final int currentIndex; // currentIndex 속성 추가
+
+  const MenuBottom({Key? key, required this.currentIndex}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +42,12 @@ class MenuBottom extends StatelessWidget {
             break;
         }
       },
-      selectedItemColor: Colors.blue,
+      selectedItemColor: Color(0xFFFF6464),
+      currentIndex: currentIndex,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
-
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.run_circle),

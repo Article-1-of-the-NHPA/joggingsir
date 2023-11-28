@@ -6,6 +6,8 @@ void main() {
 }
 
 class RouteDetail extends StatelessWidget {
+  final int _currentIndex = 1;
+
   const RouteDetail({Key? key});
 
   @override
@@ -32,7 +34,9 @@ class RouteDetail extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: const MenuBottom(),
+        bottomNavigationBar: MenuBottom(
+          currentIndex: _currentIndex,
+        ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Container(

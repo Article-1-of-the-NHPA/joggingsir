@@ -10,6 +10,7 @@ void main() {
 }
 
 class MyPage extends StatelessWidget {
+  final int _currentIndex = 2;
   const MyPage({Key? key}) : super(key: key);
 
   @override
@@ -17,14 +18,18 @@ class MyPage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: MainAppBar(title: 'MyPage'),
-        body: Column(
-          children: [
-            UserInfo(),
-            RecentLocation(),
-            RunningRecord(),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              UserInfo(),
+              RecentLocation(),
+              RunningRecord(),
+            ],
+          ),
         ),
-        bottomNavigationBar: const MenuBottom(),
+        bottomNavigationBar: MenuBottom(
+          currentIndex: _currentIndex, // 현재 활성화된 탭의 인덱스 전달
+        ),
       ),
     );
   }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:joggigsir/views/widgets/MenuBottom.dart';
+import 'package:joggigsir/views/widgets/route/routecard_small.dart';
 
 void main() {
   runApp(const MainPage());
 }
 
 class MainPage extends StatelessWidget {
+  final int _currentIndex = 0;
   const MainPage({Key? key}) : super(key: key);
 
   @override
@@ -17,16 +19,25 @@ class MainPage extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Scaffold(
-          appBar: AppBar(title: Text('Home', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
-            bottom: PreferredSize(
-              preferredSize: Size.fromHeight(1.0),
-              child: Container(
-                color: Colors.black,
-                height: 1.0,
-              ),
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            title: Row(
+              children: [
+                SizedBox(width: 8),
+                Text(
+                  "Home",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 32,
+                  ),
+                ),
+              ],
             ),
           ),
-          bottomNavigationBar: const MenuBottom(),
+          bottomNavigationBar: MenuBottom(
+            currentIndex: _currentIndex,
+          ),
           body: _MainPage()
       ),
     );
@@ -70,46 +81,6 @@ Widget indicatorCard(String value, String unit) {
               )
           )
       )
-  );
-}
-
-Widget courseCard() {
-  return Container(
-    margin: EdgeInsets.only(top: 10, bottom: 10),
-    child:
-    Column(
-      children: [
-        Container(
-            width: 300,
-            height: 200,
-            child: Image.asset('assets/recordItem.png')
-        ),
-        SizedBox(height: 20),
-        Container(
-          width: 260,
-          child:
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Text('위치 이름'),
-                  Text('경로 상세 정보'),
-                ],
-              ),
-              Container(
-                  width: 90,
-                  height: 40,
-                  child:
-                  Card(
-                    child: Center(child: Text('시작하기')),
-                  )
-              )
-            ],
-          ),
-        ),
-      ],
-    ),
   );
 }
 
@@ -218,9 +189,9 @@ class MainPageState extends State<_MainPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          courseCard(),
-                          courseCard(),
-                          courseCard(),
+                          courseCard(context),
+                          courseCard(context),
+                          courseCard(context),
                         ],
                       ),
                     )

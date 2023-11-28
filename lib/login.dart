@@ -77,35 +77,6 @@ class LoginPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 128.0),
-                  const Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: Colors.grey,
-                        ),
-                      ),
-                      SizedBox(width: 8.0),
-                      Text(
-                        '간편 로그인',
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                      SizedBox(width: 8.0),
-                      Expanded(
-                        child: Divider(
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 32,),
-                  Container(
-                    width: double.infinity,
-                    child: Image.asset(
-                      "kakao_login.png",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
                 ],
               ),
             ],

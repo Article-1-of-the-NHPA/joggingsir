@@ -8,6 +8,7 @@ void main() {
 }
 
 class RankingPage extends StatelessWidget {
+  final int _currentIndex = 2;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,7 +48,9 @@ class RankingPage extends StatelessWidget {
           ],
         ),
         body: RankingScreen(),
-        bottomNavigationBar: const MenuBottom(),
+        bottomNavigationBar: MenuBottom(
+          currentIndex: _currentIndex, // 현재 활성화된 탭의 인덱스 전달
+        ),
       ),
     );
   }
