@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:joggigsir/mainpage.dart';
 
 void main() {
@@ -12,7 +13,7 @@ class RunningApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFFF6464), // 배경색을 FF6464로 설정
+        scaffoldBackgroundColor: const Color(0xFFFF6464),
       ),
       home: RunningScreen(),
     );
@@ -28,9 +29,58 @@ class RunningScreen extends StatefulWidget {
 
 class _RunningScreenState extends State<RunningScreen> {
   bool isPaused = false;
+  Stopwatch _stopwatch = Stopwatch();
+  Timer? _timer;
+  int _stepCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    _stopwatch.start();
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      if (!isPaused) {
+        setState(() {});
+        _updateRunningTime();
+      }
+    });
+  }
+
+  void _updateRunningTime() {
+    setState(() {});
+  }
+
+  void _resetTimer() {
+    _stopwatch.reset();
+    setState(() {});
+  }
+
+  void _togglePause() {
+    isPaused = !isPaused;
+    if (isPaused) {
+      _stopwatch.stop();
+    } else {
+      _stopwatch.start();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    String formattedTime = _stopwatch.elapsed.inHours.toString().padLeft(2, '0') +
+        ':' +
+        (_stopwatch.elapsed.inMinutes % 60).toString().padLeft(2, '0') +
+        ':' +
+        (_stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, '0');
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -55,9 +105,9 @@ class _RunningScreenState extends State<RunningScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 20), // 간격 조정
+              SizedBox(height: 20),
               Text(
-                '04:32',
+                formattedTime,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 80,
@@ -69,7 +119,7 @@ class _RunningScreenState extends State<RunningScreen> {
                 ),
               ),
 
-              SizedBox(height: 20), // 간격 조정
+              SizedBox(height: 20),
 
               // 거리
               Text(
@@ -92,7 +142,7 @@ class _RunningScreenState extends State<RunningScreen> {
                 ),
               ),
 
-              SizedBox(height: 10), // 간격 조정
+              SizedBox(height: 10),
 
               // 걸음수
               Text(
@@ -103,7 +153,7 @@ class _RunningScreenState extends State<RunningScreen> {
                 ),
               ),
               Text(
-                '3242',
+                '$_stepCount',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 45,
@@ -115,7 +165,7 @@ class _RunningScreenState extends State<RunningScreen> {
                 ),
               ),
 
-              SizedBox(height: 10), // 간격 조정
+              SizedBox(height: 10),
 
               // 적립 리워드
               Text(
@@ -137,29 +187,52 @@ class _RunningScreenState extends State<RunningScreen> {
                   letterSpacing: -0.32,
                 ),
               ),
-
-              SizedBox(height: 50), // 간격 조정
-
-              // 일시정지/재생 버튼
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isPaused = !isPaused;
-                  });
-                },
-                child: Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
+              SizedBox(height: 50),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // 일시정지/재생 버튼
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _togglePause();
+                      });
+                    },
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        isPaused ? Icons.play_arrow : Icons.pause,
+                        color: const Color(0xFF2B2B2B),
+                        size: 40,
+                      ),
+                    ),
                   ),
-                  child: Icon(
-                    isPaused ? Icons.play_arrow : Icons.pause,
-                    color: const Color(0xFF2B2B2B),
-                    size: 40,
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _resetTimer(); // 변경: _resetTimer() 함수로 변경
+                      });
+                    },
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        Icons.stop, // 변경: 초기화 버튼을 정지 버튼으로 변경
+                        color: const Color(0xFF2B2B2B),
+                        size: 40,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
