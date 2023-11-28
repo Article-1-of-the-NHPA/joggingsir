@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:joggigsir/ranking_page.dart';
 
 class UserInfo extends StatelessWidget {
   const UserInfo({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class UserInfo extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: const Color(0xff7c94b6),
                             image: DecorationImage(
-                              image: NetworkImage('https://mblogthumb-phinf.pstatic.net/MjAyMjAyMDdfMjEy/MDAxNjQ0MTk0Mzk2MzY3.WAeeVCu2V3vqEz_98aWMOjK2RUKI_yHYbuZxrokf-0Ug.sV3LNWlROCJTkeS14PMu2UBl5zTkwK70aKX8B1w2oKQg.JPEG.41minit/1643900851960.jpg?type=w800'),
+                              image: AssetImage('assets/profile_picture.jpg'),
                               fit: BoxFit.cover,
                             ),
                             borderRadius: BorderRadius.all( Radius.circular(50.0)),
@@ -61,7 +62,14 @@ class UserInfo extends StatelessWidget {
                                   ),
                                   SizedBox(width: 6),
                                   TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => RankingScreen(),
+                                        ),
+                                      );
+                                    },
                                     style: TextButton.styleFrom(
                                       backgroundColor: const Color(0xFFFF6060).withOpacity(0.3), // Set background color to FF6060
                                       padding: EdgeInsets.symmetric(horizontal: 22, vertical: 10), // Set width and height

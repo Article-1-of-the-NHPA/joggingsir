@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:joggigsir/mainpage.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
@@ -29,7 +30,12 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(height: 32.0),
                   ElevatedButton(
                     onPressed: () {
-                      // 로그인 기능이 제거된 UI 버전입니다.
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MainPage(),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
