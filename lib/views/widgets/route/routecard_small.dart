@@ -1,18 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:joggigsir/runpage.dart';
+import 'package:joggigsir/routedetail.dart';
 
 Widget courseCard(BuildContext context) {
   return Container(
     margin: EdgeInsets.only(top: 10, bottom: 10),
-    child:
-    Column(
+    padding: const EdgeInsets.all(0.0),
+    constraints: const BoxConstraints(maxWidth: 400),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border.all(
+        color: Colors.black,
+        width: 1,
+      ),
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.3),
+          spreadRadius: 2,
+          blurRadius: 5,
+          offset: const Offset(0, 3),
+        ),
+      ],
+    ),
+    child: Column(
       children: [
         Container(
             width: 300,
             height: 200,
             child: Image.asset('assets/recordItem.png')
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 8),
         Container(
           width: 260,
           child:
@@ -22,7 +40,34 @@ Widget courseCard(BuildContext context) {
               Column(
                 children: [
                   Text('위치 이름'),
-                  Text('경로 상세 정보'),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RouteDetail(),
+                        ),
+                      );
+                    },
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 22, vertical: 10), // Set width and height
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0), // Set border-radius to 30
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '경로 상세 정보',
+                          style: TextStyle(
+                            fontFamily: "SF-Pro",
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               Container(

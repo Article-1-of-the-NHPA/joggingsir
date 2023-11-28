@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:joggigsir/views/widgets/MenuBottom.dart';
 import 'package:joggigsir/views/widgets/route/routecard_small.dart';
+import 'package:joggigsir/runningcard.dart';
 
 void main() {
   runApp(const MainPage());
@@ -53,12 +54,12 @@ class _MainPage extends StatefulWidget {
 
 Widget stopButton() {
   return Container(
-      width: 30,
-      height: 30,
+      width: 40,
+      height: 40,
       child:
       Card(
           child:
-          Center(child: Text('||'))
+          Center(child: Icon(Icons.pause)),
       )
   );
 }
@@ -107,73 +108,7 @@ class MainPageState extends State<_MainPage> {
                         ],
                       ),
                     ),
-                    Container(
-                        height: 200,
-                        child: Card(
-                            child:
-                            Container(
-                                decoration:
-                                BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [Color(0xFFF57073), Color(0xFFAA5454)],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                    ),
-                                    borderRadius: BorderRadius.circular(20)
-                                ),
-                                padding: EdgeInsets.all(10),
-                                child:
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text('🏃 마포대교',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                            )),
-                                        stopButton(),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        Center(
-                                            child: const Text('01 : 04 : 57', style: TextStyle(fontWeight: FontWeight.bold))
-                                        ),
-                                        Center(
-                                          child: RichText(
-                                            textAlign: TextAlign.center,
-                                            text: TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: '7',
-                                                  style: TextStyle(color: Colors.blue, fontFamily: 'SF Pro Text'),
-                                                ),
-                                                TextSpan(
-                                                  text: '명이 함께 달리고 있어요!',
-                                                  style: TextStyle(color: Colors.white, fontFamily: 'SF Pro Text'),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        indicatorCard('👟10.9', 'km'),
-                                        indicatorCard('👣3432', '걸음수'),
-                                      ],
-                                    ),
-                                  ],
-                                )
-                            )
-                        )
-                    ),
+                    RunningCard(),
                     Container(
                       margin: EdgeInsets.all(10),
                       child:
@@ -190,7 +125,9 @@ class MainPageState extends State<_MainPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           courseCard(context),
+                          SizedBox(width: 8,),
                           courseCard(context),
+                          SizedBox(width: 8,),
                           courseCard(context),
                         ],
                       ),

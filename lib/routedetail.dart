@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:joggigsir/views/widgets/MenuBottom.dart';
+import 'package:joggigsir/runpage.dart';
+import 'package:joggigsir/routelist.dart';
 
 void main() {
   runApp(const RouteDetail());
@@ -21,7 +23,14 @@ class RouteDetail extends StatelessWidget {
           ),
           centerTitle: true,
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RouteList(),
+                ),
+              );
+            },
             icon: const Icon(Icons.arrow_back_ios),
             color: Colors.black,
           ),
@@ -99,7 +108,12 @@ class RouteDetail extends StatelessWidget {
                   alignment: Alignment.bottomRight,
                   child: ElevatedButton(
                     onPressed: () {
-                      // 버튼 클릭 시 동작 추가
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RunningApp(),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(80, 30),
