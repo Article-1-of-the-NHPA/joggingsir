@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:joggigsir/views/widgets/navigate_bar.dart';
 import 'package:joggigsir/MenuBottom.dart';
+import 'package:joggigsir/mypage.dart';
 
 void main() {
   runApp(RankingPage());
@@ -12,6 +13,39 @@ class RankingPage extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Row(
+            children: [
+              SizedBox(width: 8),
+              Text(
+                "Rank",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: Icon(Icons.arrow_back),
+                color: Colors.black,
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyPage(),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
         body: RankingScreen(),
         bottomNavigationBar: const MenuBottom(),
       ),
@@ -24,43 +58,12 @@ class RankingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double percent = 30.1;
     double screenWidth = MediaQuery.of(context).size.width;
-
     return Stack(
       children: [
         SingleChildScrollView(
           child: Column(
             children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Rank',
-                        style: TextStyle(
-                          fontSize: 34.0,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'SF Pro Display',
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Handle the button press for "나의 순위 보기"
-                          // Add your logic here
-                        },
-                        child: Text('나의 순위 보기'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Divider(
-                thickness: 2.0,
-                color: Colors.black,
-              ),
-              // First Box ("박스1")
+              SizedBox(height: 8,),
               Container(
                 width: screenWidth,
                 padding: EdgeInsets.all(16.0),

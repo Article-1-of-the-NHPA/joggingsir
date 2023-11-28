@@ -67,6 +67,8 @@ flutter:
     - assets/recordItem.png
     - assets/profile_picture.jpg
     - assets/SF-Pro.ttf
+    - assets/maps.png
+    - assets/maps_small.png
   #   - images/a_dot_ham.jpeg
 
 

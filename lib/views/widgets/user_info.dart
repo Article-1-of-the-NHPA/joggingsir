@@ -66,7 +66,7 @@ class UserInfo extends StatelessWidget {
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => RankingScreen(),
+                                          builder: (context) => RankingPage(),
                                         ),
                                       );
                                     },
