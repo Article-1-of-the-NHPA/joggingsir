@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'views/widgets/main_app_bar.dart';
-import 'views/widgets/user_info.dart';
-import 'views/widgets/recent_location.dart';
-import 'views/widgets/running_record.dart';
-import 'views/widgets/navigate_bar.dart';
-import 'package:joggigsir/MenuBottom.dart';
+import 'views/widgets/mypage/main_app_bar.dart';
+import 'views/widgets/mypage/user_info.dart';
+import 'views/widgets/mypage/recent_location.dart';
+import 'views/widgets/mypage/running_record.dart';
+import 'package:joggigsir/views/widgets/MenuBottom.dart';
 
 void main() {
   runApp(const MyPage());

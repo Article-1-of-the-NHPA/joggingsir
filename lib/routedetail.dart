@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:joggigsir/MenuBottom.dart';
+import 'package:joggigsir/views/widgets/MenuBottom.dart';
 
 void main() {
   runApp(const RouteDetail());

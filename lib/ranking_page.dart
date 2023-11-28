@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:joggigsir/views/widgets/navigate_bar.dart';
-import 'package:joggigsir/MenuBottom.dart';
+import 'package:joggigsir/views/widgets/mypage/navigate_bar.dart';
+import 'package:joggigsir/views/widgets/MenuBottom.dart';
 import 'package:joggigsir/mypage.dart';
 
 void main() {
