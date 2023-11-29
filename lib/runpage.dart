@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shake/shake.dart';
 import 'dart:async';
 import 'package:joggigsir/mainpage.dart';
 
@@ -31,12 +32,26 @@ class _RunningScreenState extends State<RunningScreen> {
   bool isPaused = false;
   Stopwatch _stopwatch = Stopwatch();
   Timer? _timer;
-  int _stepCount = 0;
+  int stepCount = 0;
+  int reward = 0;
+  late ShakeDetector shaker;
 
   @override
   void initState() {
     super.initState();
     _startTimer();
+     shaker = ShakeDetector.autoStart(
+      shakeSlopTimeMS: 500, // 흔들림 감지 간격
+      shakeThresholdGravity: 1.5, // // 흔들림 강도
+      onPhoneShake: () {
+        setState(() {
+          stepCount++;
+          if (stepCount % 100 == 0) { // 리워드: 100보마다 10씩 줌
+            reward += 10;
+          }
+        });
+      },
+    );
   }
 
   @override
@@ -68,9 +83,17 @@ class _RunningScreenState extends State<RunningScreen> {
     isPaused = !isPaused;
     if (isPaused) {
       _stopwatch.stop();
+      shaker.stopListening();
     } else {
       _stopwatch.start();
+      shaker.startListening();
     }
+  }
+
+  // 거리 계산 함수
+  double calculateDistance(int steps) {
+    // 걸음 수 * 0.0007km(성인 평균 보폭)
+    return steps * 0.0007;
   }
 
   @override
@@ -80,6 +103,8 @@ class _RunningScreenState extends State<RunningScreen> {
         (_stopwatch.elapsed.inMinutes % 60).toString().padLeft(2, '0') +
         ':' +
         (_stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, '0');
+
+    double distance = calculateDistance(stepCount);
 
     return Scaffold(
       appBar: AppBar(
@@ -130,7 +155,7 @@ class _RunningScreenState extends State<RunningScreen> {
                 ),
               ),
               Text(
-                '5.2',
+                distance.toStringAsFixed(2), // 소수점 첫째자리까지만 표시
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 45,
@@ -153,7 +178,7 @@ class _RunningScreenState extends State<RunningScreen> {
                 ),
               ),
               Text(
-                '$_stepCount',
+                '$stepCount',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 45,
@@ -176,7 +201,7 @@ class _RunningScreenState extends State<RunningScreen> {
                 ),
               ),
               Text(
-                '120',
+                '$reward',
                 style: TextStyle(
                   color: Colors.blue,
                   fontSize: 45,
@@ -187,9 +212,12 @@ class _RunningScreenState extends State<RunningScreen> {
                   letterSpacing: -0.32,
                 ),
               ),
+
               SizedBox(height: 50),
+
+              // 일시정지/재생 버튼
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // 일시정지/재생 버튼
                   GestureDetector(
@@ -198,25 +226,34 @@ class _RunningScreenState extends State<RunningScreen> {
                         _togglePause();
                       });
                     },
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Icon(
-                        isPaused ? Icons.play_arrow : Icons.pause,
-                        color: const Color(0xFF2B2B2B),
-                        size: 40,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(
+                          isPaused ? Icons.play_arrow : Icons.pause,
+                          color: const Color(0xFF2B2B2B),
+                          size: 40,
+                        ),
                       ),
                     ),
                   ),
+
+                  // 네모 아이콘 버튼
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        _resetTimer(); // 변경: _resetTimer() 함수로 변경
-                      });
+                      _resetTimer();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MainPage(),
+                        ),
+                      );
                     },
                     child: Container(
                       width: 60,
@@ -226,7 +263,7 @@ class _RunningScreenState extends State<RunningScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Icon(
-                        Icons.stop, // 변경: 초기화 버튼을 정지 버튼으로 변경
+                        Icons.stop,
                         color: const Color(0xFF2B2B2B),
                         size: 40,
                       ),

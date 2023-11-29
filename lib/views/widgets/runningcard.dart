@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:joggigsir/runpage.dart';
 import 'package:flutter/material.dart';
+import 'package:shake/shake.dart';
 
 class RunningCard extends StatefulWidget {
   @override
@@ -8,12 +9,58 @@ class RunningCard extends StatefulWidget {
 }
 
 class _RunningCardState extends State<RunningCard> {
-  bool isPlaying = false;
+  bool isPaused = false;
+  Stopwatch _stopwatch = Stopwatch();
+  Timer? _timer;
+  int stepCount = 0;
+  int reward = 0;
   int seconds = 0;
-  late Timer _timer;
+  late ShakeDetector shaker;
+
+  void _startTimer() {
+    _stopwatch.start();
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      if (!isPaused) {
+        setState(() {});
+        _updateRunningTime();
+      }
+    });
+  }
+
+  double calculateDistance(int steps) {
+    // 걸음 수 * 0.0007km(성인 평균 보폭)
+    return steps * 0.0007;
+  }
+
+  void _updateRunningTime() {
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+    shaker = ShakeDetector.autoStart(
+      shakeSlopTimeMS: 500, // 흔들림 감지 간격
+      shakeThresholdGravity: 1.5, // // 흔들림 강도
+      onPhoneShake: () {
+        setState(() {
+          stepCount++;
+        });
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    String formattedTime = _stopwatch.elapsed.inHours.toString().padLeft(2, '0') +
+        ':' +
+        (_stopwatch.elapsed.inMinutes % 60).toString().padLeft(2, '0') +
+        ':' +
+        (_stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, '0');
+
+    double distance = calculateDistance(stepCount);
+
     return GestureDetector( // 변경: GestureDetector로 감싸기
       onTap: () {
         Navigator.push(
@@ -54,7 +101,7 @@ class _RunningCardState extends State<RunningCard> {
                   children: [
                     Center(
                       child: Text(
-                        formatTime(seconds),
+                        formattedTime,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
@@ -86,37 +133,11 @@ class _RunningCardState extends State<RunningCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    indicatorCard('👟10.9', 'km'),
-                    indicatorCard('👣3432', '걸음수'),
+                    indicatorCard('👟${distance.toStringAsFixed(2)}', 'km'),
+                    indicatorCard('👣$stepCount', '걸음수'),
                   ],
                 ),
               ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget toggleButton() {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          isPlaying = !isPlaying;
-          if (isPlaying) {
-            startTimer();
-          } else {
-            stopTimer();
-          }
-        });
-      },
-      child: Container(
-        width: 40,
-        height: 40,
-        child: Card(
-          child: Center(
-            child: Icon(
-              isPlaying ? Icons.pause : Icons.play_arrow,
             ),
           ),
         ),
@@ -142,38 +163,31 @@ class _RunningCardState extends State<RunningCard> {
     );
   }
 
-  void startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        seconds++;
-      });
-    });
-  }
-
-  void stopTimer() {
-    _timer.cancel();
-  }
-
-  String formatTime(int seconds) {
-    int hours = seconds ~/ 3600;
-    int minutes = (seconds ~/ 60) % 60;
-    int remainingSeconds = seconds % 60;
-
-    return '$hours : ${minutes < 10 ? '0$minutes' : '$minutes'} : ${remainingSeconds < 10 ? '0$remainingSeconds' : '$remainingSeconds'}';
-  }
-}
-
-class YourNewPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Your New Page'),
-      ),
-      body: Center(
-        child: Text('Welcome to Your New Page!'),
+  Widget toggleButton() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isPaused = !isPaused;
+          if (!isPaused) {
+            _stopwatch.start();
+            shaker.startListening();
+          } else {
+            _stopwatch.stop();
+            shaker.stopListening();
+          }
+        });
+      },
+      child: Container(
+        width: 40,
+        height: 40,
+        child: Card(
+          child: Center(
+            child: Icon(
+              isPaused ? Icons.play_arrow : Icons.pause,
+            ),
+          ),
+        ),
       ),
     );
   }
 }
-
