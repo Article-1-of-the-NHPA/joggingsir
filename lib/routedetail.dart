@@ -2,15 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:joggigsir/views/widgets/MenuBottom.dart';
 import 'package:joggigsir/runpage.dart';
 import 'package:joggigsir/routelist.dart';
+import 'package:joggigsir/running_data.dart';
+import 'package:shake/shake.dart';
 
-void main() {
-  runApp(const RouteDetail());
+class RouteDetail extends StatefulWidget {
+  final int _currentIndex = 1;
+  final RunningData runningData;
+
+  const RouteDetail({Key? key, required this.runningData}) : super(key: key);
+
+  @override
+  _RouteDetailState createState() => _RouteDetailState(runningData: runningData);
 }
 
-class RouteDetail extends StatelessWidget {
-  final int _currentIndex = 1;
+class _RouteDetailState extends State<RouteDetail> {
+  final RunningData runningData;
+  late ShakeDetector shaker;
 
-  const RouteDetail({Key? key});
+  _RouteDetailState({required this.runningData});
+
+  @override
+  void initState() {
+    super.initState();
+    shaker = ShakeDetector.autoStart(
+      shakeSlopTimeMS: 1000, // 흔들림 감지 간격
+      shakeThresholdGravity: 1.5, // // 흔들림 강도
+      onPhoneShake: () {
+        setState(() {
+          if (mounted && runningData.isRunning && !runningData.getIsPaused) {
+            runningData.setSteps(runningData.getSteps + 1);
+          }
+        });
+      },
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // 페이지가 활성화될 때 ShakeDetector 리스너를 시작
+    shaker.startListening();
+  }
+
+  @override
+  void dispose() {
+    // 페이지가 비활성화될 때 ShakeDetector 리스너를 중지
+    shaker.stopListening();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +66,7 @@ class RouteDetail extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => RouteList(),
+                  builder: (context) => RouteList(runningData: widget.runningData),
                 ),
               );
             },
@@ -44,7 +83,7 @@ class RouteDetail extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: MenuBottom(
-          currentIndex: _currentIndex,
+          currentIndex: widget._currentIndex, runningData: widget.runningData,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -111,7 +150,7 @@ class RouteDetail extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RunningApp(),
+                          builder: (context) => RunningApp(runningData: widget.runningData),
                         ),
                       );
                     },

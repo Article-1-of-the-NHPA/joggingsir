@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:joggigsir/views/widgets/mypage/navigate_bar.dart';
 import 'package:joggigsir/views/widgets/MenuBottom.dart';
 import 'package:joggigsir/mypage.dart';
+import 'package:joggigsir/running_data.dart';
+import 'package:shake/shake.dart';
 
-void main() {
-  runApp(RankingPage());
+class RankingPage extends StatefulWidget {
+  final RunningData runningData;
+  final int _currentIndex = 2;
+
+  const RankingPage({Key? key, required this.runningData})
+      : super(key: key);
+
+  @override
+  _RankingPageState createState() => _RankingPageState(runningData: runningData);
 }
 
-class RankingPage extends StatelessWidget {
-  final int _currentIndex = 2;
+class _RankingPageState extends State<RankingPage> {
+  final RunningData runningData;
+
+  _RankingPageState ({required this.runningData});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,7 +49,7 @@ class RankingPage extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MyPage(),
+                      builder: (context) => MyPage(runningData: widget.runningData),
                     ),
                   );
                 },
@@ -47,16 +57,60 @@ class RankingPage extends StatelessWidget {
             ),
           ],
         ),
-        body: RankingScreen(),
+        body: RankingScreen(runningData: runningData),
         bottomNavigationBar: MenuBottom(
-          currentIndex: _currentIndex, // 현재 활성화된 탭의 인덱스 전달
+          currentIndex: widget._currentIndex, runningData: widget.runningData,
         ),
       ),
     );
   }
 }
 
-class RankingScreen extends StatelessWidget {
+class RankingScreen extends StatefulWidget {
+  final RunningData runningData;
+
+  RankingScreen({Key? key, required this.runningData}) : super(key: key);
+
+  @override
+  _RankingScreenState createState() => _RankingScreenState(runningData: runningData);
+}
+
+class _RankingScreenState extends State<RankingScreen> {
+  final RunningData runningData;
+  late ShakeDetector shaker;
+
+  _RankingScreenState({required this.runningData});
+
+  @override
+  void initState() {
+    super.initState();
+    shaker = ShakeDetector.autoStart(
+      shakeSlopTimeMS: 1000, // 흔들림 감지 간격
+      shakeThresholdGravity: 1.5, // // 흔들림 강도
+      onPhoneShake: () {
+        setState(() {
+          if (mounted && runningData.isRunning && !runningData.getIsPaused) {
+            runningData.setSteps(runningData.getSteps + 1);
+          }
+        });
+      },
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // 페이지가 활성화될 때 ShakeDetector 리스너를 시작
+    shaker.startListening();
+  }
+
+  @override
+  void dispose() {
+    // 페이지가 비활성화될 때 ShakeDetector 리스너를 중지
+    shaker.stopListening();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double percent = 30.1;

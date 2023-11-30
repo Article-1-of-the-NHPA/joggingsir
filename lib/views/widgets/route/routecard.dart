@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:joggigsir/runpage.dart';
 import 'package:joggigsir/routedetail.dart';
+import 'package:joggigsir/running_data.dart';
 
 class RouteCard extends StatelessWidget {
-  const RouteCard({Key? key}) : super(key: key);
+  final RunningData runningData;
+  const RouteCard({Key? key, required this.runningData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class RouteCard extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => RouteDetail(),
+                  builder: (context) => RouteDetail(runningData: runningData),
                 ),
               );
             },
@@ -99,7 +101,7 @@ class RouteCard extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RunningApp(),
+                      builder: (context) => RunningApp(runningData: runningData),
                     ),
                   );
                 },

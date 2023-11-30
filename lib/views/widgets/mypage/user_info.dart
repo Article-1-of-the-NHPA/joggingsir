@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:joggigsir/views/home/ranking_page.dart';
+import 'package:joggigsir/running_data.dart';
 
 class UserInfo extends StatelessWidget {
-  const UserInfo({Key? key}) : super(key: key);
+  final RunningData runningData;
+
+  const UserInfo({Key? key, required this.runningData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +69,7 @@ class UserInfo extends StatelessWidget {
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => RankingPage(),
+                                          builder: (context) => RankingPage(runningData: runningData),
                                         ),
                                       );
                                     },

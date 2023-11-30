@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:joggigsir/runpage.dart';
 import 'package:joggigsir/routedetail.dart';
+import 'package:joggigsir/running_data.dart';
 
-Widget courseCard(BuildContext context) {
+Widget courseCard(BuildContext context, RunningData runningData) {
   return Container(
     margin: EdgeInsets.only(top: 10, bottom: 10),
     padding: const EdgeInsets.all(0.0),
@@ -45,7 +46,7 @@ Widget courseCard(BuildContext context) {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RouteDetail(),
+                          builder: (context) => RouteDetail(runningData: runningData),
                         ),
                       );
                     },
@@ -78,7 +79,7 @@ Widget courseCard(BuildContext context) {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => RunningApp(),
+                        builder: (context) => RunningApp(runningData: runningData),
                       ),
                     );
                   },

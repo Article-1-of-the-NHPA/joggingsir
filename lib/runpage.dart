@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:shake/shake.dart';
 import 'dart:async';
 import 'package:joggigsir/mainpage.dart';
+import 'package:joggigsir/running_data.dart';
 
-void main() {
-  runApp(const RunningApp());
-}
 
 class RunningApp extends StatelessWidget {
-  const RunningApp({Key? key}) : super(key: key);
+  final RunningData runningData;
+  const RunningApp({Key? key, required this.runningData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,72 +15,71 @@ class RunningApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFFF6464),
       ),
-      home: RunningScreen(),
+      home: RunningScreen(runningData: runningData),
     );
   }
 }
 
 class RunningScreen extends StatefulWidget {
-  const RunningScreen({Key? key}) : super(key: key);
+  final RunningData runningData;
+  const RunningScreen({Key? key, required this.runningData}) : super(key: key);
 
   @override
-  _RunningScreenState createState() => _RunningScreenState();
+  _RunningScreenState createState() => _RunningScreenState(runningData: runningData);
 }
 
 class _RunningScreenState extends State<RunningScreen> {
-  bool isPaused = false;
+  final RunningData runningData;
   Stopwatch _stopwatch = Stopwatch();
   Timer? _timer;
-  int stepCount = 0;
-  int reward = 0;
   late ShakeDetector shaker;
+
+  _RunningScreenState({required this.runningData});
+
 
   @override
   void initState() {
     super.initState();
-    _startTimer();
-     shaker = ShakeDetector.autoStart(
-      shakeSlopTimeMS: 500, // 흔들림 감지 간격
-      shakeThresholdGravity: 1.5, // // 흔들림 강도
+    runningData.startTimer();
+    shaker = ShakeDetector.autoStart(
+      shakeSlopTimeMS: 500,
+      shakeThresholdGravity: 1.5,
       onPhoneShake: () {
-        setState(() {
-          stepCount++;
-          if (stepCount % 100 == 0) { // 리워드: 100보마다 10씩 줌
-            reward += 10;
-          }
-        });
+        if (mounted && runningData.getIsRunning && !runningData.getIsPaused) {
+          setState(() {
+            runningData.setSteps(runningData.getSteps + 1);
+          });
+        }
       },
     );
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _updateUI();
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // 페이지가 활성화될 때 ShakeDetector 리스너를 시작
+    shaker.startListening();
   }
 
   @override
   void dispose() {
-    _timer?.cancel();
+    // 페이지가 비활성화될 때 ShakeDetector 리스너를 중지
+    shaker.stopListening();
     super.dispose();
   }
 
-  void _startTimer() {
-    _stopwatch.start();
-    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      if (!isPaused) {
-        setState(() {});
-        _updateRunningTime();
-      }
-    });
-  }
-
-  void _updateRunningTime() {
-    setState(() {});
-  }
-
-  void _resetTimer() {
-    _stopwatch.reset();
-    setState(() {});
+  void _updateUI() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _togglePause() {
-    isPaused = !isPaused;
-    if (isPaused) {
+    runningData.toggleIsPaused();
+    if (runningData.getIsPaused) {
       _stopwatch.stop();
       shaker.stopListening();
     } else {
@@ -90,21 +88,10 @@ class _RunningScreenState extends State<RunningScreen> {
     }
   }
 
-  // 거리 계산 함수
-  double calculateDistance(int steps) {
-    // 걸음 수 * 0.0007km(성인 평균 보폭)
-    return steps * 0.0007;
-  }
-
   @override
   Widget build(BuildContext context) {
-    String formattedTime = _stopwatch.elapsed.inHours.toString().padLeft(2, '0') +
-        ':' +
-        (_stopwatch.elapsed.inMinutes % 60).toString().padLeft(2, '0') +
-        ':' +
-        (_stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, '0');
-
-    double distance = calculateDistance(stepCount);
+    String formattedTime = Duration(seconds: runningData.getTime).toString().split('.').first.padLeft(8, '0');
+    double distance = runningData.getDistance;
 
     return Scaffold(
       appBar: AppBar(
@@ -116,7 +103,7 @@ class _RunningScreenState extends State<RunningScreen> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => MainPage(),
+                builder: (context) => MainPage(runningData: runningData),
               ),
             );
           },
@@ -178,7 +165,7 @@ class _RunningScreenState extends State<RunningScreen> {
                 ),
               ),
               Text(
-                '$stepCount',
+                '${runningData.getSteps}',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 45,
@@ -201,7 +188,7 @@ class _RunningScreenState extends State<RunningScreen> {
                 ),
               ),
               Text(
-                '$reward',
+                '${runningData.getReward}',
                 style: TextStyle(
                   color: Colors.blue,
                   fontSize: 45,
@@ -236,7 +223,7 @@ class _RunningScreenState extends State<RunningScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Icon(
-                          isPaused ? Icons.play_arrow : Icons.pause,
+                          runningData.getIsPaused ? Icons.play_arrow : Icons.pause,
                           color: const Color(0xFF2B2B2B),
                           size: 40,
                         ),
@@ -247,11 +234,10 @@ class _RunningScreenState extends State<RunningScreen> {
                   // 네모 아이콘 버튼
                   GestureDetector(
                     onTap: () {
-                      _resetTimer();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MainPage(),
+                          builder: (context) => MainPage(runningData: runningData),
                         ),
                       );
                     },

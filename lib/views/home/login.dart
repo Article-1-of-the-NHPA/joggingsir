@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:joggigsir/mainpage.dart';
+import 'package:joggigsir/running_data.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
@@ -30,10 +31,11 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(height: 32.0),
                   ElevatedButton(
                     onPressed: () {
+                      RunningData runningData = RunningData();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MainPage(),
+                          builder: (context) => MainPage(runningData: runningData),
                         ),
                       );
                     },
