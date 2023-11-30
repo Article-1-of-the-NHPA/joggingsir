@@ -67,6 +67,9 @@ flutter:
     - assets/SF-Pro.ttf
     - assets/maps.png
     - assets/maps_small.png
+    - assets/running_news1.png
+    - assets/running_news2.png
+    - assets/running_news3.png
   #   - images/a_dot_ham.jpeg
 
 

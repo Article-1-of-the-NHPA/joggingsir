@@ -1,71 +1,54 @@
-import 'dart:async';
+import 'package:joggigsir/running_data.dart';
 import 'package:joggigsir/runpage.dart';
 import 'package:flutter/material.dart';
-import 'package:shake/shake.dart';
+import 'dart:async';
+import 'dart:math';
 
 class RunningCard extends StatefulWidget {
+  final RunningData runningData;
+  final int runningman = 7;
+
+  RunningCard({required this.runningData});
+
   @override
-  _RunningCardState createState() => _RunningCardState();
+  _RunningCardState createState() => _RunningCardState(runningData: runningData);
 }
 
 class _RunningCardState extends State<RunningCard> {
-  bool isPaused = false;
-  Stopwatch _stopwatch = Stopwatch();
+  final RunningData runningData;
+  Random random = Random();
+  int randomNumber = 7;
   Timer? _timer;
-  int stepCount = 0;
-  int reward = 0;
-  int seconds = 0;
-  late ShakeDetector shaker;
 
-  void _startTimer() {
-    _stopwatch.start();
-    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      if (!isPaused) {
-        setState(() {});
-        _updateRunningTime();
-      }
-    });
-  }
-
-  double calculateDistance(int steps) {
-    // 걸음 수 * 0.0007km(성인 평균 보폭)
-    return steps * 0.0007;
-  }
-
-  void _updateRunningTime() {
-    setState(() {});
-  }
+  _RunningCardState({required this.runningData});
 
   @override
   void initState() {
     super.initState();
-    _startTimer();
-    shaker = ShakeDetector.autoStart(
-      shakeSlopTimeMS: 500, // 흔들림 감지 간격
-      shakeThresholdGravity: 1.5, // // 흔들림 강도
-      onPhoneShake: () {
-        setState(() {
-          stepCount++;
-        });
-      },
-    );
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _updateUI();
+    });
+    _timer = Timer.periodic(Duration(seconds: 30), (timer) {
+      randomNumber = random.nextInt(10) + 1;
+    });
+  }
+
+  void _updateUI() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    String formattedTime = _stopwatch.elapsed.inHours.toString().padLeft(2, '0') +
-        ':' +
-        (_stopwatch.elapsed.inMinutes % 60).toString().padLeft(2, '0') +
-        ':' +
-        (_stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, '0');
+    String formattedTime = Duration(seconds: runningData.getTime).toString().split('.').first.padLeft(8, '0');
+    double distance = runningData.getDistance;
 
-    double distance = calculateDistance(stepCount);
-
-    return GestureDetector( // 변경: GestureDetector로 감싸기
+    return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => RunningApp()), // 변경: YourNewPage는 새 페이지의 위젯
+          MaterialPageRoute(builder: (context) => RunningApp(runningData: runningData)),
         );
       },
       child: Container(
@@ -87,8 +70,8 @@ class _RunningCardState extends State<RunningCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      '🏃 마포대교',
+                    Text(
+                      '🏃 ${runningData.getRoute}',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 24,
@@ -115,14 +98,18 @@ class _RunningCardState extends State<RunningCard> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: '7',
+                              text: '$randomNumber',
                               style: TextStyle(
-                                  color: Colors.blue, fontFamily: 'SF Pro Text'),
+                                color: Colors.blue,
+                                fontFamily: 'SF Pro Text',
+                              ),
                             ),
                             TextSpan(
                               text: '명이 함께 달리고 있어요!',
                               style: TextStyle(
-                                  color: Colors.white, fontFamily: 'SF Pro Text'),
+                                color: Colors.white,
+                                fontFamily: 'SF Pro Text',
+                              ),
                             ),
                           ],
                         ),
@@ -134,7 +121,7 @@ class _RunningCardState extends State<RunningCard> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     indicatorCard('👟${distance.toStringAsFixed(2)}', 'km'),
-                    indicatorCard('👣$stepCount', '걸음수'),
+                    indicatorCard('👣${runningData.getSteps}', '걸음수'),
                   ],
                 ),
               ],
@@ -167,13 +154,11 @@ class _RunningCardState extends State<RunningCard> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          isPaused = !isPaused;
-          if (!isPaused) {
-            _stopwatch.start();
-            shaker.startListening();
+          runningData.toggleIsPaused();
+          if (!runningData.getIsPaused) {
+            runningData.startTimer();
           } else {
-            _stopwatch.stop();
-            shaker.stopListening();
+            runningData.stopTimer();
           }
         });
       },
@@ -183,7 +168,7 @@ class _RunningCardState extends State<RunningCard> {
         child: Card(
           child: Center(
             child: Icon(
-              isPaused ? Icons.play_arrow : Icons.pause,
+              runningData.getIsPaused ? Icons.play_arrow : Icons.pause,
             ),
           ),
         ),

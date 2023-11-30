@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:joggigsir/runpage.dart';
 import 'package:joggigsir/routedetail.dart';
+import 'package:joggigsir/running_data.dart';
 
-Widget courseCard(BuildContext context) {
+Widget courseCard(BuildContext context, RunningData runningData) {
   return Container(
     margin: EdgeInsets.only(top: 10, bottom: 10),
     padding: const EdgeInsets.all(0.0),
@@ -45,7 +46,7 @@ Widget courseCard(BuildContext context) {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RouteDetail(),
+                          builder: (context) => RouteDetail(runningData: runningData),
                         ),
                       );
                     },
@@ -75,12 +76,34 @@ Widget courseCard(BuildContext context) {
                 height: 40,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RunningApp(),
-                      ),
-                    );
+                    if (!runningData.getIsRunning) {
+                      runningData.toggleIsRunning();
+                      runningData.setRoute("마포대교");
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RunningApp(runningData: runningData),
+                        ),
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("알림"),
+                            content: Text("이미 러닝을 뛰고 있습니다."),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // 알림 닫기
+                                },
+                                child: Text("확인"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFFFF6464), // 버튼의 배경색

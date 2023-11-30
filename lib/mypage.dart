@@ -4,14 +4,28 @@ import 'views/widgets/mypage/user_info.dart';
 import 'views/widgets/mypage/recent_location.dart';
 import 'views/widgets/mypage/running_record.dart';
 import 'package:joggigsir/views/widgets/MenuBottom.dart';
+import 'package:joggigsir/running_data.dart';
 
-void main() {
-  runApp(const MyPage());
+class MyPage extends StatefulWidget {
+  final int _currentIndex = 2;
+  final RunningData runningData;
+
+  const MyPage({Key? key, required this.runningData}) : super(key: key);
+
+  @override
+  _MyPageState createState() => _MyPageState(runningData: runningData);
 }
 
-class MyPage extends StatelessWidget {
-  final int _currentIndex = 2;
-  const MyPage({Key? key}) : super(key: key);
+class _MyPageState extends State<MyPage> {
+  final RunningData runningData;
+
+  _MyPageState({required this.runningData});
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +35,15 @@ class MyPage extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              UserInfo(),
+              UserInfo(runningData: widget.runningData),
               RecentLocation(),
               RunningRecord(),
             ],
           ),
         ),
         bottomNavigationBar: MenuBottom(
-          currentIndex: _currentIndex, // 현재 활성화된 탭의 인덱스 전달
+          currentIndex: widget._currentIndex,
+          runningData: widget.runningData,
         ),
       ),
     );

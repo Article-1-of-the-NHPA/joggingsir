@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:joggigsir/mainpage.dart';
+import 'package:joggigsir/running_data.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final RunningData runningData;
+
+  LoginPage({Key? key, required this.runningData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,7 @@ class LoginPage extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MainPage(),
+                          builder: (context) => MainPage(runningData: runningData),
                         ),
                       );
                     },

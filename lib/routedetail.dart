@@ -2,15 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:joggigsir/views/widgets/MenuBottom.dart';
 import 'package:joggigsir/runpage.dart';
 import 'package:joggigsir/routelist.dart';
+import 'package:joggigsir/running_data.dart';
 
-void main() {
-  runApp(const RouteDetail());
+class RouteDetail extends StatefulWidget {
+  final int _currentIndex = 1;
+  final RunningData runningData;
+
+  const RouteDetail({Key? key, required this.runningData}) : super(key: key);
+
+  @override
+  _RouteDetailState createState() => _RouteDetailState(runningData: runningData);
 }
 
-class RouteDetail extends StatelessWidget {
-  final int _currentIndex = 1;
+class _RouteDetailState extends State<RouteDetail> {
+  final RunningData runningData;
 
-  const RouteDetail({Key? key});
+  _RouteDetailState({required this.runningData});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +34,7 @@ class RouteDetail extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => RouteList(),
+                  builder: (context) => RouteList(runningData: widget.runningData),
                 ),
               );
             },
@@ -44,7 +51,7 @@ class RouteDetail extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: MenuBottom(
-          currentIndex: _currentIndex,
+          currentIndex: widget._currentIndex, runningData: widget.runningData,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -108,12 +115,34 @@ class RouteDetail extends StatelessWidget {
                   alignment: Alignment.bottomRight,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RunningApp(),
-                        ),
-                      );
+                      if (!runningData.getIsRunning) {
+                        runningData.toggleIsRunning();
+                        runningData.setRoute("마포대교");
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RunningApp(runningData: runningData),
+                          ),
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("알림"),
+                              content: Text("이미 러닝을 뛰고 있습니다."),
+                              actions: <Widget>[
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // 알림 닫기
+                                  },
+                                  child: Text("확인"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(80, 30),

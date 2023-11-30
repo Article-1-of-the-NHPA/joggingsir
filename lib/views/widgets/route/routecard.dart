@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:joggigsir/runpage.dart';
 import 'package:joggigsir/routedetail.dart';
+import 'package:joggigsir/running_data.dart';
 
 class RouteCard extends StatelessWidget {
-  const RouteCard({Key? key}) : super(key: key);
+  final RunningData runningData;
+  const RouteCard({Key? key, required this.runningData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class RouteCard extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => RouteDetail(),
+                  builder: (context) => RouteDetail(runningData: runningData),
                 ),
               );
             },
@@ -96,12 +98,34 @@ class RouteCard extends StatelessWidget {
               Spacer(),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RunningApp(),
-                    ),
-                  );
+                  runningData.toggleIsRunning();
+                  runningData.setRoute("마포대교");
+                  if (!runningData.getIsRunning) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RunningApp(runningData: runningData),
+                      ),
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text("알림"),
+                          content: Text("이미 러닝을 뛰고 있습니다."),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(); // 알림 닫기
+                              },
+                              child: Text("확인"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(80, 30),
