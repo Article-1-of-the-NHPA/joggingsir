@@ -77,6 +77,8 @@ Widget courseCard(BuildContext context, RunningData runningData) {
                 child: ElevatedButton(
                   onPressed: () {
                     if (!runningData.getIsRunning) {
+                      runningData.toggleIsRunning();
+                      runningData.setRoute("마포대교");
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

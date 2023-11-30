@@ -31,6 +31,8 @@ class _RouteDetailState extends State<RouteDetail> {
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
+              runningData.toggleIsRunning();
+              runningData.setRoute("마포대교");
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

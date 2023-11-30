@@ -98,6 +98,8 @@ class RouteCard extends StatelessWidget {
               Spacer(),
               ElevatedButton(
                 onPressed: () {
+                  runningData.toggleIsRunning();
+                  runningData.setRoute("마포대교");
                   if (!runningData.getIsRunning) {
                     Navigator.pushReplacement(
                       context,
