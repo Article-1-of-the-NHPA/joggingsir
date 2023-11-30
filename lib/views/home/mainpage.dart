@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:joggigsir/views/widgets/MenuBottom.dart';
 import 'package:joggigsir/views/widgets/route/routecard_small.dart';
-import 'package:joggigsir/views/widgets/runningcard.dart';
+import 'package:joggigsir/views/widgets/main/runningcard.dart';
 import 'package:joggigsir/data_provider/running_data.dart';
 import 'package:joggigsir/views/widgets/main/runningNews.dart';
 
