@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:joggigsir/mainpage.dart';
 import 'package:joggigsir/running_data.dart';
+import 'package:provider/provider.dart';
+import 'package:joggigsir/shaker_provider.dart';
 
 
 class RunningApp extends StatelessWidget {
@@ -64,6 +66,7 @@ class _RunningScreenState extends State<RunningScreen> {
   Widget build(BuildContext context) {
     String formattedTime = Duration(seconds: runningData.getTime).toString().split('.').first.padLeft(8, '0');
     double distance = runningData.getDistance;
+    final shakeDetectorProvider = Provider.of<ShakeDetectorProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -206,6 +209,7 @@ class _RunningScreenState extends State<RunningScreen> {
                   // 네모 아이콘 버튼
                   GestureDetector(
                     onTap: () {
+                      runningData.initializeData();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

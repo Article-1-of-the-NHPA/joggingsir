@@ -2,11 +2,11 @@ import 'package:joggigsir/running_data.dart';
 import 'package:joggigsir/runpage.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:provider/provider.dart';
-import 'package:joggigsir/shaker_provider.dart';
+import 'dart:math';
 
 class RunningCard extends StatefulWidget {
   final RunningData runningData;
+  final int runningman = 7;
 
   RunningCard({required this.runningData});
 
@@ -16,7 +16,8 @@ class RunningCard extends StatefulWidget {
 
 class _RunningCardState extends State<RunningCard> {
   final RunningData runningData;
-
+  Random random = Random();
+  int randomNumber = 7;
   Timer? _timer;
 
   _RunningCardState({required this.runningData});
@@ -27,6 +28,9 @@ class _RunningCardState extends State<RunningCard> {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       _updateUI();
     });
+    _timer = Timer.periodic(Duration(seconds: 30), (timer) {
+      randomNumber = random.nextInt(10) + 1;
+    });
   }
 
   void _updateUI() {
@@ -35,12 +39,10 @@ class _RunningCardState extends State<RunningCard> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     String formattedTime = Duration(seconds: runningData.getTime).toString().split('.').first.padLeft(8, '0');
     double distance = runningData.getDistance;
-    final shakeDetectorProvider = Provider.of<ShakeDetectorProvider>(context);
 
     return GestureDetector(
       onTap: () {
@@ -96,7 +98,7 @@ class _RunningCardState extends State<RunningCard> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: '7',
+                              text: '$randomNumber',
                               style: TextStyle(
                                 color: Colors.blue,
                                 fontFamily: 'SF Pro Text',
