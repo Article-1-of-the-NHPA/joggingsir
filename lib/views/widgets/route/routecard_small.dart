@@ -76,12 +76,32 @@ Widget courseCard(BuildContext context, RunningData runningData) {
                 height: 40,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RunningApp(runningData: runningData),
-                      ),
-                    );
+                    if (!runningData.getIsRunning) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RunningApp(runningData: runningData),
+                        ),
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("알림"),
+                            content: Text("이미 러닝을 뛰고 있습니다."),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // 알림 닫기
+                                },
+                                child: Text("확인"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFFFF6464), // 버튼의 배경색

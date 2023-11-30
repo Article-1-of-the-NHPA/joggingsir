@@ -3,6 +3,7 @@ import 'package:joggigsir/views/widgets/MenuBottom.dart';
 import 'package:joggigsir/views/widgets/route/routecard_small.dart';
 import 'package:joggigsir/views/widgets/runningcard.dart';
 import 'package:joggigsir/running_data.dart';
+import 'package:joggigsir/runningNews.dart';
 
 class MainPage extends StatelessWidget {
   final int _currentIndex = 0;
@@ -51,13 +52,13 @@ class _MainPage extends StatefulWidget {
   const _MainPage({Key? key, required this.runningData}) : super(key: key);
 
   @override
-  State<_MainPage> createState() => MainPageState(runningData: runningData); // 수정: RunningData 객체 전달
+  State<_MainPage> createState() => MainPageState(runningData: runningData);
 }
 
 class MainPageState extends State<_MainPage> {
   final RunningData runningData;
 
-  MainPageState({required this.runningData}); // 수정: RunningData 객체 전달
+  MainPageState({required this.runningData});
 
   @override
   Widget build(BuildContext context) {
@@ -75,11 +76,15 @@ class MainPageState extends State<_MainPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('홍길동님 RUNNING PLACE'),
+                        Text(runningData.getIsRunning
+                            ? '홍길동님 RUNNING PLACE'
+                            : 'Running News'),
                       ],
                     ),
                   ),
-                  RunningCard(runningData: runningData), // 수정: RunningData 객체 전달
+                  runningData.getIsRunning
+                      ? RunningCard(runningData: runningData)
+                      : ImageSlider(), // ImageSlider 위젯을 사용합니다.
                   Container(
                     margin: EdgeInsets.all(10),
                     child: Row(
@@ -94,11 +99,11 @@ class MainPageState extends State<_MainPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        courseCard(context, runningData), // 수정: RunningData 객체 전달
+                        courseCard(context, runningData),
                         SizedBox(width: 8,),
-                        courseCard(context, runningData), // 수정: RunningData 객체 전달
+                        courseCard(context, runningData),
                         SizedBox(width: 8,),
-                        courseCard(context, runningData), // 수정: RunningData 객체 전달
+                        courseCard(context, runningData),
                       ],
                     ),
                   ),
@@ -111,3 +116,4 @@ class MainPageState extends State<_MainPage> {
     );
   }
 }
+

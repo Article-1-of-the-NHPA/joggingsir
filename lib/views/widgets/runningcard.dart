@@ -24,7 +24,6 @@ class _RunningCardState extends State<RunningCard> {
   @override
   void initState() {
     super.initState();
-    runningData.startTimer();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       _updateUI();
     });
