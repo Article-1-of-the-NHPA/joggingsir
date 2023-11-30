@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shake/shake.dart';
-import 'package:joggigsir/running_data.dart';
+import 'package:joggigsir/data_provider/running_data.dart';
 
 
 class ShakeDetectorProvider with ChangeNotifier {

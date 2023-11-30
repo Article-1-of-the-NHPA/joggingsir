@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:joggigsir/views/widgets/MenuBottom.dart';
-import 'package:joggigsir/runpage.dart';
-import 'package:joggigsir/routelist.dart';
-import 'package:joggigsir/running_data.dart';
+import 'package:joggigsir/views/home/runpage.dart';
+import 'package:joggigsir/views/home/routelist.dart';
+import 'package:joggigsir/data_provider/running_data.dart';
 
 class RouteDetail extends StatefulWidget {
   final int _currentIndex = 1;

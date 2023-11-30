@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:joggigsir/mainpage.dart';
-import 'package:joggigsir/routelist.dart';
-import 'package:joggigsir/mypage.dart';
-import 'package:joggigsir/running_data.dart';
+import 'package:joggigsir/views/home/mainpage.dart';
+import 'package:joggigsir/views/home/routelist.dart';
+import 'package:joggigsir/views/home/mypage.dart';
+import 'package:joggigsir/data_provider/running_data.dart';
 
 class MenuBottom extends StatelessWidget {
   final int currentIndex; // currentIndex 속성 추가
