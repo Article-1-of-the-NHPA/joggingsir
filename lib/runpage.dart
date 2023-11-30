@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shake/shake.dart';
 import 'dart:async';
 import 'package:joggigsir/mainpage.dart';
 import 'package:joggigsir/running_data.dart';
@@ -32,7 +31,6 @@ class _RunningScreenState extends State<RunningScreen> {
   final RunningData runningData;
   Stopwatch _stopwatch = Stopwatch();
   Timer? _timer;
-  late ShakeDetector shaker;
 
   _RunningScreenState({required this.runningData});
 
@@ -41,35 +39,11 @@ class _RunningScreenState extends State<RunningScreen> {
   void initState() {
     super.initState();
     runningData.startTimer();
-    shaker = ShakeDetector.autoStart(
-      shakeSlopTimeMS: 500,
-      shakeThresholdGravity: 1.5,
-      onPhoneShake: () {
-        if (mounted && runningData.getIsRunning && !runningData.getIsPaused) {
-          setState(() {
-            runningData.setSteps(runningData.getSteps + 1);
-          });
-        }
-      },
-    );
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       _updateUI();
     });
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // 페이지가 활성화될 때 ShakeDetector 리스너를 시작
-    shaker.startListening();
-  }
-
-  @override
-  void dispose() {
-    // 페이지가 비활성화될 때 ShakeDetector 리스너를 중지
-    shaker.stopListening();
-    super.dispose();
-  }
 
   void _updateUI() {
     if (mounted) {
@@ -81,10 +55,8 @@ class _RunningScreenState extends State<RunningScreen> {
     runningData.toggleIsPaused();
     if (runningData.getIsPaused) {
       _stopwatch.stop();
-      shaker.stopListening();
     } else {
       _stopwatch.start();
-      shaker.startListening();
     }
   }
 

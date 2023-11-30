@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:joggigsir/views/widgets/MenuBottom.dart';
 import 'package:joggigsir/mypage.dart';
 import 'package:joggigsir/running_data.dart';
-import 'package:shake/shake.dart';
 
 class RankingPage extends StatefulWidget {
   final RunningData runningData;
@@ -77,38 +76,13 @@ class RankingScreen extends StatefulWidget {
 
 class _RankingScreenState extends State<RankingScreen> {
   final RunningData runningData;
-  late ShakeDetector shaker;
+
 
   _RankingScreenState({required this.runningData});
 
   @override
   void initState() {
     super.initState();
-    shaker = ShakeDetector.autoStart(
-      shakeSlopTimeMS: 1000, // 흔들림 감지 간격
-      shakeThresholdGravity: 1.5, // // 흔들림 강도
-      onPhoneShake: () {
-        setState(() {
-          if (mounted && runningData.isRunning && !runningData.getIsPaused) {
-            runningData.setSteps(runningData.getSteps + 1);
-          }
-        });
-      },
-    );
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // 페이지가 활성화될 때 ShakeDetector 리스너를 시작
-    shaker.startListening();
-  }
-
-  @override
-  void dispose() {
-    // 페이지가 비활성화될 때 ShakeDetector 리스너를 중지
-    shaker.stopListening();
-    super.dispose();
   }
 
   @override

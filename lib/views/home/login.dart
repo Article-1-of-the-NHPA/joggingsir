@@ -5,6 +5,9 @@ import 'package:joggigsir/running_data.dart';
 class LoginPage extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final RunningData runningData;
+
+  LoginPage({Key? key, required this.runningData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,6 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(height: 32.0),
                   ElevatedButton(
                     onPressed: () {
-                      RunningData runningData = RunningData();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

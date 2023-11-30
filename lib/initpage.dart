@@ -2,26 +2,45 @@
 
 import 'package:flutter/material.dart';
 import 'views/home/login.dart';
+import 'package:provider/provider.dart';
+import 'package:joggigsir/shaker_provider.dart';
+import 'package:joggigsir/running_data.dart';
 
 void main() {
-  runApp(MyApp());
+  RunningData runningData = RunningData();
+  runApp(
+      ChangeNotifierProvider(
+      create: (context) => ShakeDetectorProvider(runningData),
+      child: MyApp(runningData: runningData),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
+  final RunningData runningData;
+  const MyApp({Key? key, required this.runningData}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SplashScreen(),
+      home: SplashScreen(runningData: runningData),
     );
   }
 }
 
 class SplashScreen extends StatefulWidget {
+  final RunningData runningData;
+  const SplashScreen({Key? key, required this.runningData}) : super(key: key);
+
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  _SplashScreenState createState() => _SplashScreenState(runningData: runningData);
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final RunningData runningData;
+
+  _SplashScreenState({required this.runningData});
+
   @override
   void initState() {
     super.initState();
@@ -35,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => LoginPage(),
+        builder: (context) => LoginPage(runningData: runningData),
       ),
     );
   }

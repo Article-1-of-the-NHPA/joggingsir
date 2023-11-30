@@ -2,7 +2,8 @@ import 'package:joggigsir/running_data.dart';
 import 'package:joggigsir/runpage.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:shake/shake.dart';
+import 'package:provider/provider.dart';
+import 'package:joggigsir/shaker_provider.dart';
 
 class RunningCard extends StatefulWidget {
   final RunningData runningData;
@@ -15,7 +16,7 @@ class RunningCard extends StatefulWidget {
 
 class _RunningCardState extends State<RunningCard> {
   final RunningData runningData;
-  late ShakeDetector shaker;
+
   Timer? _timer;
 
   _RunningCardState({required this.runningData});
@@ -24,34 +25,9 @@ class _RunningCardState extends State<RunningCard> {
   void initState() {
     super.initState();
     runningData.startTimer();
-    shaker = ShakeDetector.autoStart(
-      shakeSlopTimeMS: 500,
-      shakeThresholdGravity: 1.5,
-      onPhoneShake: () {
-        if (mounted && runningData.getIsRunning && !runningData.getIsPaused) {
-          setState(() {
-            runningData.setSteps(runningData.getSteps + 1);
-          });
-        }
-      },
-    );
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       _updateUI();
     });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // 페이지가 활성화될 때 ShakeDetector 리스너를 시작
-    shaker.startListening();
-  }
-
-  @override
-  void dispose() {
-    // 페이지가 비활성화될 때 ShakeDetector 리스너를 중지
-    shaker.stopListening();
-    super.dispose();
   }
 
   void _updateUI() {
@@ -61,11 +37,11 @@ class _RunningCardState extends State<RunningCard> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
     String formattedTime = Duration(seconds: runningData.getTime).toString().split('.').first.padLeft(8, '0');
     double distance = runningData.getDistance;
+    final shakeDetectorProvider = Provider.of<ShakeDetectorProvider>(context);
 
     return GestureDetector(
       onTap: () {
@@ -180,10 +156,8 @@ class _RunningCardState extends State<RunningCard> {
           runningData.toggleIsPaused();
           if (!runningData.getIsPaused) {
             runningData.startTimer();
-            shaker.startListening();
           } else {
             runningData.stopTimer();
-            shaker.stopListening();
           }
         });
       },
