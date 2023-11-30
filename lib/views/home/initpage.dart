@@ -1,20 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'views/home/login.dart';
-import 'package:provider/provider.dart';
-import 'package:joggigsir/shaker_provider.dart';
-import 'package:joggigsir/running_data.dart';
-
-void main() {
-  RunningData runningData = RunningData();
-  runApp(
-      ChangeNotifierProvider(
-      create: (context) => ShakeDetectorProvider(runningData),
-      child: MyApp(runningData: runningData),
-    )
-  );
-}
+import 'login.dart';
+import 'package:joggigsir/data_provider/running_data.dart';
 
 class MyApp extends StatelessWidget {
   final RunningData runningData;

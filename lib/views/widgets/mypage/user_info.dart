@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:joggigsir/views/home/ranking_page.dart';
-import 'package:joggigsir/running_data.dart';
+import 'package:joggigsir/data_provider/running_data.dart';
 
 class UserInfo extends StatelessWidget {
   final RunningData runningData;

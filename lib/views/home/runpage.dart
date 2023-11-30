@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:joggigsir/mainpage.dart';
-import 'package:joggigsir/running_data.dart';
+import 'package:joggigsir/views/home/mainpage.dart';
+import 'package:joggigsir/data_provider/running_data.dart';
 import 'package:provider/provider.dart';
-import 'package:joggigsir/shaker_provider.dart';
+import 'package:joggigsir/data_provider/shaker_provider.dart';
 
 
 class RunningApp extends StatelessWidget {

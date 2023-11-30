@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:joggigsir/views/widgets/MenuBottom.dart';
 import 'package:joggigsir/views/widgets/route/routecard.dart';
-import 'package:joggigsir/running_data.dart';
+import 'package:joggigsir/data_provider/running_data.dart';
 
 class RouteList extends StatefulWidget {
   final RunningData runningData;

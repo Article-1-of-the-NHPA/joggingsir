@@ -1,5 +1,5 @@
-import 'package:joggigsir/running_data.dart';
-import 'package:joggigsir/runpage.dart';
+import 'package:joggigsir/data_provider/running_data.dart';
+import 'package:joggigsir/views/home/runpage.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math';

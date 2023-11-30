@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:joggigsir/mainpage.dart';
-import 'package:joggigsir/running_data.dart';
+import 'package:joggigsir/views/home/mainpage.dart';
+import 'package:joggigsir/data_provider/running_data.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();

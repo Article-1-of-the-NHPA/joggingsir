@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'views/widgets/mypage/main_app_bar.dart';
-import 'views/widgets/mypage/user_info.dart';
-import 'views/widgets/mypage/recent_location.dart';
-import 'views/widgets/mypage/running_record.dart';
+import '../widgets/mypage/main_app_bar.dart';
+import '../widgets/mypage/user_info.dart';
+import '../widgets/mypage/recent_location.dart';
+import '../widgets/mypage/running_record.dart';
 import 'package:joggigsir/views/widgets/MenuBottom.dart';
-import 'package:joggigsir/running_data.dart';
+import 'package:joggigsir/data_provider/running_data.dart';
 
 class MyPage extends StatefulWidget {
   final int _currentIndex = 2;
