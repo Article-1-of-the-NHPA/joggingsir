@@ -36,7 +36,7 @@ class _MyPageState extends State<MyPage> {
           child: Column(
             children: [
               UserInfo(runningData: widget.runningData),
-              RecentLocation(),
+              RecentLocation(runningData: runningData,),
               RunningRecord(),
             ],
           ),

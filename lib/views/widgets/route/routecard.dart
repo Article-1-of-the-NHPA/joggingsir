@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:joggigsir/data_provider/course_data.dart';
 import 'package:joggigsir/views/home/runpage.dart';
 import 'package:joggigsir/views/home/routedetail.dart';
 import 'package:joggigsir/data_provider/running_data.dart';
 
 class RouteCard extends StatelessWidget {
   final RunningData runningData;
-  const RouteCard({Key? key, required this.runningData}) : super(key: key);
+  final CourseData courseData;
+  const RouteCard({Key? key, required this.runningData, required this.courseData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +43,8 @@ class RouteCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          const Text(
-            '제목',
+          Text(
+            courseData.name,
             style: TextStyle(
               fontFamily: "SF-Pro",
               fontSize: 14,
@@ -69,7 +71,7 @@ class RouteCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '경로 상세 정보',
+                  courseData.info,
                   style: TextStyle(
                     fontFamily: "SF-Pro",
                     fontSize: 18,
@@ -99,7 +101,7 @@ class RouteCard extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   runningData.toggleIsRunning();
-                  runningData.setRoute("마포대교");
+                  runningData.setRoute(courseData.name);
                   if (!runningData.getIsRunning) {
                     Navigator.pushReplacement(
                       context,

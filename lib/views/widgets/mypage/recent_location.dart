@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:joggigsir/data_provider/running_data.dart';
 
 class RecentLocation extends StatelessWidget {
-  const RecentLocation({Key? key}) : super(key: key);
+  final RunningData runningData;
+  const RecentLocation({Key? key, required this.runningData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class RecentLocation extends StatelessWidget {
         children: [
           Title(),
           SizedBox(height: 12),
-          Location(),
+          Location(runningData: runningData,),
           Divider()
         ],
       ),
@@ -40,7 +42,8 @@ class Title extends StatelessWidget {
 }
 
 class Location extends StatelessWidget {
-  const Location({Key? key}) : super(key: key);
+  final RunningData runningData;
+  const Location({Key? key, required this.runningData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +64,8 @@ class Location extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('마포대교'),
-            Text('총 5879 걸음', style: TextStyle(fontWeight: FontWeight.w500, color: Color(0xff989491))),
+            Text(runningData.route),
+            Text(runningData.getSteps.toString()+'걸음', style: TextStyle(fontWeight: FontWeight.w500, color: Color(0xff989491))),
             Row(
               children: [
                 Icon(Icons.star, color: Colors.yellow, size: 20),

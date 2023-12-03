@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:joggigsir/views/home/runpage.dart';
 import 'package:joggigsir/views/home/routedetail.dart';
 import 'package:joggigsir/data_provider/running_data.dart';
+import 'package:joggigsir/data_provider/course_data.dart';
 
-Widget courseCard(BuildContext context, RunningData runningData) {
+Widget courseCard(BuildContext context, RunningData runningData, CourseData courseData) {
   return Container(
     margin: EdgeInsets.only(top: 10, bottom: 10),
     padding: const EdgeInsets.all(0.0),
@@ -40,7 +41,7 @@ Widget courseCard(BuildContext context, RunningData runningData) {
             children: [
               Column(
                 children: [
-                  Text('위치 이름'),
+                  Text(courseData.name),
                   TextButton(
                     onPressed: () {
                       Navigator.pushReplacement(
@@ -60,7 +61,7 @@ Widget courseCard(BuildContext context, RunningData runningData) {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '경로 상세 정보',
+                          courseData.info,
                           style: TextStyle(
                             fontFamily: "SF-Pro",
                             fontSize: 18,
@@ -78,7 +79,7 @@ Widget courseCard(BuildContext context, RunningData runningData) {
                   onPressed: () {
                     if (!runningData.getIsRunning) {
                       runningData.toggleIsRunning();
-                      runningData.setRoute("마포대교");
+                      runningData.setRoute(courseData.name);
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
